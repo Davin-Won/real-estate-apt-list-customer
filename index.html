@@ -3,178 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>원미구 중동/상동 아파트 매물 정보</title>
+    <title>부동산 매물 리스트 - 고객전달용</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        .container { max-width: 1400px; margin: 0 auto; }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            margin-bottom: 30px;
         }
-        .header h1 { font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); }
-        .filter-section {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .filters {
+            background: white;
             border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .filter-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 15px;
+
+        .filter-section {
+            margin-bottom: 0;
         }
-        .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+
+        .filter-label {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: #333;
+            display: block;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .filter-btn {
-            padding: 10px 18px;
+            padding: 10px 20px;
             border: 2px solid #667eea;
             background: white;
             color: #667eea;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
+            font-size: 0.95rem;
             font-weight: 600;
-            font-size: 0.9em;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
+
         .filter-btn:hover {
-            background: #f0f4ff;
+            background: #f0f0f0;
             transform: translateY(-2px);
         }
+
         .filter-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-color: #764ba2;
             transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
-        .complex-section {
-            margin-bottom: 40px;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-        .complex-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid #667eea;
-        }
-        .complex-title { font-size: 1.8em; color: #2d3748; font-weight: bold; }
-        .complex-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        .cards-grid {
+
+        .property-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
+
         .property-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 15px;
-            padding: 20px;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-        .property-card:hover { transform: translateY(-5px); }
-        .property-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .building-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        .floor-info { font-size: 0.95em; color: #4a5568; }
-        .direction-badge {
-            background: #48bb78;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            font-weight: bold;
-        }
-        .price-section {
             background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .property-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #764ba2;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .property-info {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .property-label {
+            display: inline-block;
+            width: 90px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .property-value {
+            color: #333;
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #764ba2;
+            margin: 15px 0;
+        }
+
+        .property-price-per {
+            font-size: 1rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .property-special {
+            background: #f8f9ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .no-results {
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            padding: 60px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+
+        .stats {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.1);
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 15px;
         }
-        .main-price {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 8px;
-        }
-        .price-detail {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9em;
-            color: #4a5568;
-        }
-        .area-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .area-item {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
+
+        .contact-info {
             text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .area-label { font-size: 0.85em; color: #718096; margin-bottom: 5px; }
-        .area-value { font-size: 0.95em; font-weight: bold; color: #2d3748; }
-        .features {
-            margin-top: 15px;
-            padding: 12px;
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
+
+        .contact-info h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
         }
-        .features-label {
-            font-size: 0.85em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
+
+        .contact-info p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.8;
         }
-        .features-text { font-size: 0.9em; color: #4a5568; line-height: 1.5; }
-        
+
         @media (max-width: 768px) {
-            .cards-grid {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .property-grid {
                 grid-template-columns: 1fr;
             }
-            .header h1 {
-                font-size: 1.8em;
+
+            .filter-buttons {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
             }
         }
     </style>
@@ -182,1583 +220,333 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏠 원미구 중동/상동 아파트 매물 정보</h1>
-        </div>
-        
-        <div class="filter-section">
-            <div class="filter-title">🔍 단지별 매물 보기</div>
-            <div class="filter-buttons" id="complex-buttons">
-                <button class="filter-btn" data-complex="all">전체보기 (46건)</button>
-                <button class="filter-btn" data-complex="반달건영(21평-23평형)">반달건영(21평-23평형) (11건)</button>
-                <button class="filter-btn" data-complex="반달극동(23평-24평형)">반달극동(23평-24평형) (9건)</button>
-                <button class="filter-btn" data-complex="미리내동성(20평)">미리내동성(20평) (7건)</button>
-                <button class="filter-btn" data-complex="금강마을(20평형대)">금강마을(20평형대) (5건)</button>
-                <button class="filter-btn" data-complex="반달동아(23평형)">반달동아(23평형) (5건)</button>
-                <button class="filter-btn" data-complex="미리내은하수(21평)">미리내은하수(21평) (3건)</button>
-                <button class="filter-btn" data-complex="반달선경(23평형)">반달선경(23평형) (3건)</button>
-                <button class="filter-btn" data-complex="반달삼익(22평형)">반달삼익(22평형) (3건)</button>
-            </div>
+            <h1>🏢 부동산 매물 리스트</h1>
+            <div class="subtitle">전세 아파트 매물</div>
         </div>
 
-        <div id="property-list">
+        <div class="stats" id="stats">
+            총 <strong id="total-count">0</strong>건의 매물
+        </div>
 
-        <div class="complex-section" data-complex="미리내은하수(21평)">
-            <div class="complex-header">
-                <div class="complex-title">미리내은하수(21평)</div>
-                <div class="complex-badge">3건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내은하수타운</div>
-                            <div class="floor-info">📍 911동 | 16층층 / 총 20층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,142만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">68㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">54.0㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">이사협의.샷시포함 올수리.옵션에어컨2대, 가스렌지,붙박이장.조망굿</div>
-                    </div>
+        <div class="filters">
+            <div class="filter-section">
+                <span class="filter-label">📍 단지 선택</span>
+                <div class="filter-buttons" id="complex-filters">
+                    <button class="filter-btn active" data-complex="all" onclick="filterByComplex('all')">
+                        전체보기 (<span class="complex-count" data-complex="all">0</span>)
+                    </button>
                 </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내은하수타운</div>
-                            <div class="floor-info">📍 911동 | 19층층 / 총 20층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 8,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,285만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">68㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">54.0㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">전체LG샷시포함 한샘특올수리 중문</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내은하수타운</div>
-                            <div class="floor-info">📍 911동 | 9층층 / 총 20층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 8,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,285만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">68㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">54.0㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">입주매물 샷시포함 특인테리어 시스템에어컨2대 강마루 중문 완벽해요</div>
-                    </div>
-                </div>
-
             </div>
         </div>
 
-        <div class="complex-section" data-complex="미리내동성(20평)">
-            <div class="complex-header">
-                <div class="complex-title">미리내동성(20평)</div>
-                <div class="complex-badge">7건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내동성</div>
-                            <div class="floor-info">📍 926동 | 10층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 2,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,100만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">66㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">52.9㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">내부올수리. 4월말입주 입주협의가능</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내동성</div>
-                            <div class="floor-info">📍 926동 | 12층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,250만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">66㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">52.9㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">로얄동 로얄층,전체 특올수리</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내동성</div>
-                            <div class="floor-info">📍 922동 | 13층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,250만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">66㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">52.9㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">역세권,백화점,대학병원,중앙공원옆,전망굿,계남우수한군등.</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내동성</div>
-                            <div class="floor-info">📍 931동 | 14층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 3,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,150만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">66㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">52.9㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">햇살좋은 남향.내부샷시포함 올수리.입주가능</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내동성</div>
-                            <div class="floor-info">📍 931동 | 4층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 3,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,150만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">66㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">52.9㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">입주매물 전체샷시포함특올수리.붙박이장설치 중앙공원 </div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내동성</div>
-                            <div class="floor-info">📍 931동 | 6층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 1,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,050만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">66㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">52.9㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">H0T추천, 중앙공원바로옆 남향,계남초학군, 도배장판전등교체함</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">미리내동성</div>
-                            <div class="floor-info">📍 922동 | 8층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 2,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,100만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">66㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">52.9㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">로얄동 로얄층,전체 특올수리</div>
-                    </div>
-                </div>
-
-            </div>
+        <div class="property-grid" id="property-grid"></div>
+        <div class="no-results" id="no-results" style="display: none;">
+            해당 조건의 매물이 없습니다.
         </div>
 
-        <div class="complex-section" data-complex="금강마을(20평형대)">
-            <div class="complex-header">
-                <div class="complex-title">금강마을(20평형대)</div>
-                <div class="complex-badge">5건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">금강마을</div>
-                            <div class="floor-info">📍 418동 | 10층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,142만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">51.7㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">아주깨끗하고 빠른입주가. 부천시청역 도보5분</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">금강마을</div>
-                            <div class="floor-info">📍 418동 | 10층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 6,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,190만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">51.7㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">급매,</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">금강마을</div>
-                            <div class="floor-info">📍 412동 | 11층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">5억 2,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,476만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">51.7㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">화이트시공올리모델링,햇살좋은정남향,교통,학교,쇼핑등주거환경최상</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">금강마을</div>
-                            <div class="floor-info">📍 412동 | 5층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">5억 0만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,380만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">51.7㎡<br>(16평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">추천,남향,전철도보5분,해잘들고밝은집,3월중순이후협의</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">금강마을</div>
-                            <div class="floor-info">📍 403동 | 6층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 6,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,300만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">67㎡<br>(20평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">49.8㎡<br>(15평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">남향,주인거주로관리잘된 깨끗한집,이사협의</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="complex-section" data-complex="반달선경(23평형)">
-            <div class="complex-header">
-                <div class="complex-title">반달선경(23평형)</div>
-                <div class="complex-badge">3건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달선경</div>
-                            <div class="floor-info">📍 1821동 | 4층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 1,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,782만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">77㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.9㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">올샷시포함 특올수리 남향 입주가능하며, 통합재건축 공공방식 선정된 단지</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달선경</div>
-                            <div class="floor-info">📍 1822동 | 7층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 2,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,826만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">76㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.3㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">급매 선도지구선정  계단식구조로 거실확장등 특올수리 이사 협의</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달선경</div>
-                            <div class="floor-info">📍 1821동 | 8층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 4,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,913만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">77㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.9㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">샷시 포함 올수리 된 집.정남향 햇살좋은 집.재건축 선도지구선정 됨.</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="complex-section" data-complex="반달삼익(22평형)">
-            <div class="complex-header">
-                <div class="complex-title">반달삼익(22평형)</div>
-                <div class="complex-badge">3건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달삼익</div>
-                            <div class="floor-info">📍 1826동 | 12층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 8,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,181만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">72㎡<br>(22평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.0㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">귀한 소형계단식 입주가능한 남향  내부올수리, 구지공원이 앞마당이예요</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달삼익</div>
-                            <div class="floor-info">📍 1825동 | 6층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 4,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,000만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">72㎡<br>(22평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.0㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">재건축선도지구 선정단지 완전 계단식구조의 내부샷시포함올수리 이사협의 가능</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달삼익</div>
-                            <div class="floor-info">📍 1826동 | 7층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 9,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,227만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">72㎡<br>(22평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.0㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">계단식아파트 전체샷시포함 특올수리 관리까지 잘된집 입주가능</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="complex-section" data-complex="반달동아(23평형)">
-            <div class="complex-header">
-                <div class="complex-title">반달동아(23평형)</div>
-                <div class="complex-badge">5건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달동아</div>
-                            <div class="floor-info">📍 1816동 | 5층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 3,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,869만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">76㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.3㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">추천,선호하는 계단식,최근 내부샷시포함 전체 특올수리,남향,넓은세탁실</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달동아</div>
-                            <div class="floor-info">📍 1816동 | 6층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 8,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,652만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">76㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.3㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">강추,계단식구조,부분수리깨끗,해잘드는 남향,선도지구선정</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달동아</div>
-                            <div class="floor-info">📍 1812동 | 6층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 2,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,826만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">77㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.9㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">23. 정남향의 따뜻하고 환한집. 내부올수리. 깔끔. 협의가</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달동아</div>
-                            <div class="floor-info">📍 1816동 | 7층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 3,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,869만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">77㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.9㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">추천, 전체샷시포함 화이트톤 특올수리 입주가능 밝고 환한 남향 집</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달동아</div>
-                            <div class="floor-info">📍 1810동 | 9층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 3,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,869만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">76㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.3㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">계단식구조이며 전망좋고 올수리되어있는 로얄동 추천매물입니다</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="complex-section" data-complex="반달건영(21평-23평형)">
-            <div class="complex-header">
-                <div class="complex-title">반달건영(21평-23평형)</div>
-                <div class="complex-badge">11건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1801동 | 4층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,666만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">55.7㎡<br>(17평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">빠를수록 입주가능한 남향 전면동으로 주차편리하고 전철 로데오이용편리</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1807동 | 12층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 6,500만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,738만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">55.7㎡<br>(17평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">강추물건, 내부올수리된 집이입니다 송내역 도보10분거리 투자로도 좋은집</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1807동 | 6층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 7,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,761만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">55.7㎡<br>(17평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">송내전철역세권아파트. 공실 즉시입주</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1807동 | 9층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 8,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,809만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">55.7㎡<br>(17평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">공실로 입주와 인테리어시공 관계편리하며 최대한 조정가능해요</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1808동 | 10층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 9,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,857만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">70㎡<br>(21평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">55.7㎡<br>(17평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">통합재건축선도지구단지 남향 여유있는 입주가 가능해요</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1802동 | 9층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 2,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,826만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">75㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">강추,급매,내부수리된 계단구조,입주협의 가능한 귀한 집</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1803동 | 17층층 / 총 19층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 8,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,086만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">75㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">재건축선도지구지정단지 샷시포함특올수리된 예쁜집입니다. </div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1803동 | 8층층 / 총 19층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 8,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>2,086만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">75㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">선호하는 계단식,샷시포함 전체 특올수리로 예쁜집, 거실확장현</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1807동 | 7층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,956만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">75㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">추천,계단형구조,내외부샷시포함 전체 특올수리,넓은 세탁실,정남향</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1807동 | 8층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 4,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,913만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">75㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">추천,계단식,올수리로 밝고 환해요,남향,역세권,선도지구선정</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달건영</div>
-                            <div class="floor-info">📍 1808동 | 중층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 1,500만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,804만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">75㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">작은방확장. 샷시제외 올수리로 상태 좋은집. 재건축선도지구지정단지.남향</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="complex-section" data-complex="반달극동(23평-24평형)">
-            <div class="complex-header">
-                <div class="complex-title">반달극동(23평-24평형)</div>
-                <div class="complex-badge">9건</div>
-            </div>
-            <div class="cards-grid">
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1838동 | 고층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 2,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,826만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">77㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.5㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">역 인접한 동, 송내역 초역세권 , 올수리 된 깔끔한 집, 입주협의</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1839동 | 15층층 / 총 19층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,956만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">77㎡<br>(23평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.5㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">송내 초역세권 대단지 조용한 동 층간소음 걱정없는 깨끗한 집입니다</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1838동 | 10층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 3,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,791만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">78㎡<br>(24평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">내부올수리되어있는 위치좋은 단지,급행이 서는 송내역초역세권단지,주인거주</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1838동 | 7층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 9,500만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,645만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">78㎡<br>(24평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">추천,내외부샷시포함올수리되어서 아주 깨끗함,급행이 서는 송내역초역세권</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1838동 | 8층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">3억 9,800만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,658만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">78㎡<br>(24평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">역 바로 앞 구조 좋은 집 입주 수리 협의 가능합니다</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1838동 | 9층층 / 총 15층층</div>
-                        </div>
-                        <div class="direction-badge">동향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 3,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,791만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">78㎡<br>(24평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">초역세권,내외부샷시포함내부특올수리,에어컨2대,즉시입주</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1839동 | 5층층 / 총 19층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 1,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,708만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">78㎡<br>(24평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">강추,최근에 거실내부샷시랑 화장실등 올수리해서 아주 깨끗함,입주협의가능</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1839동 | 7층층 / 총 19층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 5,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,875만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">78㎡<br>(24평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">송내 초역세권 대단지 내부 수리된  입주 가능한 집입니다</div>
-                    </div>
-                </div>
-
-                <div class="property-card">
-                    <div class="card-header">
-                        <div class="building-info">
-                            <div class="building-name">반달극동</div>
-                            <div class="floor-info">📍 1839동 | 9층층 / 총 19층층</div>
-                        </div>
-                        <div class="direction-badge">남향</div>
-                    </div>
-                    <div class="price-section">
-                        <div class="main-price">4억 4,000만원</div>
-                        <div class="price-detail">
-                            <span>💰 평단가</span>
-                            <span><strong>1,833만원/평</strong></span>
-                        </div>
-                    </div>
-                    <div class="area-info">
-                        <div class="area-item">
-                            <div class="area-label">계약면적</div>
-                            <div class="area-value">78㎡<br>(24평)</div>
-                        </div>
-                        <div class="area-item">
-                            <div class="area-label">전용면적</div>
-                            <div class="area-value">59.8㎡<br>(18평)</div>
-                        </div>
-                    </div>
-                    <div class="features">
-                        <div class="features-label">✨ 특이사항</div>
-                        <div class="features-text">외부샷시포함 올수리된 조용하고 따뜻한 남향집입니다</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+        <div class="contact-info">
+            <h3>📞 문의하기</h3>
+            <p>
+                매물에 대한 자세한 정보나 방문 예약을 원하시면<br>
+                담당 공인중개사에게 연락주세요.
+            </p>
         </div>
     </div>
-    
+
     <script>
+        const properties = [
+  {
+    "등록번호": "2608070626",
+    "단지명": "금강마을",
+    "동": "415동",
+    "층": "13층",
+    "총층": "15층",
+    "보증금": 210000000,
+    "보증금_억": "2.10억",
+    "평단가": 12179000,
+    "평단가_만": "1218만원",
+    "계약면적": "57.0㎡",
+    "계약면적_평": "17.0평",
+    "전용면적": "41.8㎡",
+    "전용면적_평": "13.0평",
+    "방향": "남향",
+    "특이사항": "샷시포함 올수리 전망굿 정남향 내부깨끗 5월 이사협의",
+    "등록일": "2026-02-10"
+  },
+  {
+    "등록번호": "2607436941",
+    "단지명": "금강마을",
+    "동": "404동",
+    "층": "16층",
+    "총층": "25층",
+    "보증금": 230000000,
+    "보증금_억": "2.30억",
+    "평단가": 12464000,
+    "평단가_만": "1246만원",
+    "계약면적": "61.0㎡",
+    "계약면적_평": "18.0평",
+    "전용면적": "42.8㎡",
+    "전용면적_평": "13.0평",
+    "방향": "동향",
+    "특이사항": "추천,내부올수리깨끗,이사협의,관리아주잘된집 ,앞뒤트인집",
+    "등록일": "2026-02-06"
+  },
+  {
+    "등록번호": "2606481765",
+    "단지명": "미리내금호,한양,한신",
+    "동": "914동",
+    "층": "11층",
+    "총층": "14층",
+    "보증금": 210000000,
+    "보증금_억": "2.10억",
+    "평단가": 12179000,
+    "평단가_만": "1218만원",
+    "계약면적": "57.0㎡",
+    "계약면적_평": "17.0평",
+    "전용면적": "41.1㎡",
+    "전용면적_평": "12.0평",
+    "방향": "서향",
+    "특이사항": "17p  역세권,특올수리,입주협의",
+    "등록일": "2026-02-02"
+  },
+  {
+    "등록번호": "2607373959",
+    "단지명": "미리내금호,한양,한신",
+    "동": "914동",
+    "층": "12층",
+    "총층": "14층",
+    "보증금": 230000000,
+    "보증금_억": "2.30억",
+    "평단가": 13339000,
+    "평단가_만": "1334만원",
+    "계약면적": "57.0㎡",
+    "계약면적_평": "17.0평",
+    "전용면적": "41.1㎡",
+    "전용면적_평": "12.0평",
+    "방향": "남향",
+    "특이사항": "nan",
+    "등록일": "2026-02-06"
+  },
+  {
+    "등록번호": "2608710670",
+    "단지명": "반달동아",
+    "동": "1814동",
+    "층": "17층",
+    "총층": "19층",
+    "보증금": 250000000,
+    "보증금_억": "2.50억",
+    "평단가": 12913000,
+    "평단가_만": "1291만원",
+    "계약면적": "64.0㎡",
+    "계약면적_평": "19.0평",
+    "전용면적": "50.0㎡",
+    "전용면적_평": "15.0평",
+    "방향": "남향",
+    "특이사항": "전망아주좋고 내부올수리되어있는 추천매물입니다",
+    "등록일": "2026-02-13"
+  },
+  {
+    "등록번호": "2608667799",
+    "단지명": "은하마을주공1단지",
+    "동": "114동",
+    "층": "14층",
+    "총층": "15층",
+    "보증금": 260000000,
+    "보증금_억": "2.60억",
+    "평단가": 12427000,
+    "평단가_만": "1243만원",
+    "계약면적": "69.0㎡",
+    "계약면적_평": "21.0평",
+    "전용면적": "50.0㎡",
+    "전용면적_평": "15.0평",
+    "방향": "남향",
+    "특이사항": "수리깨끗,전망좋음",
+    "등록일": "2026-02-13"
+  },
+  {
+    "등록번호": "2608597099",
+    "단지명": "은하마을주공1단지",
+    "동": "111동",
+    "층": "8층",
+    "총층": "15층",
+    "보증금": 250000000,
+    "보증금_억": "2.50억",
+    "평단가": 12366000,
+    "평단가_만": "1237만원",
+    "계약면적": "67.0㎡",
+    "계약면적_평": "20.0평",
+    "전용면적": "49.84㎡",
+    "전용면적_평": "15.0평",
+    "방향": "동향",
+    "특이사항": "역세권,전망좋음.수리완료",
+    "등록일": "2026-02-13"
+  },
+  {
+    "등록번호": "2605944549",
+    "단지명": "한라주공2단지(뜨란채)",
+    "동": "254동",
+    "층": "12층",
+    "총층": "15층",
+    "보증금": 200000000,
+    "보증금_억": "2.00억",
+    "평단가": 11599000,
+    "평단가_만": "1160만원",
+    "계약면적": "57.0㎡",
+    "계약면적_평": "17.0평",
+    "전용면적": "42.48㎡",
+    "전용면적_평": "13.0평",
+    "방향": "남향",
+    "특이사항": "베란다확장.깔끔한내부",
+    "등록일": "2026-01-30"
+  },
+  {
+    "등록번호": "2608403296",
+    "단지명": "한라주공2단지(뜨란채)",
+    "동": "256동",
+    "층": "11층",
+    "총층": "15층",
+    "보증금": 200000000,
+    "보증금_억": "2.00억",
+    "평단가": 11599000,
+    "평단가_만": "1160만원",
+    "계약면적": "57.0㎡",
+    "계약면적_평": "17.0평",
+    "전용면적": "42.48㎡",
+    "전용면적_평": "13.0평",
+    "방향": "남향",
+    "특이사항": "깨끗한집,중역세권,이사협의",
+    "등록일": "2026-02-11"
+  },
+  {
+    "등록번호": "2607871857",
+    "단지명": "한라주공2단지(뜨란채)",
+    "동": "254동",
+    "층": "13층",
+    "총층": "15층",
+    "보증금": 200000000,
+    "보증금_억": "2.00억",
+    "평단가": 11599000,
+    "평단가_만": "1160만원",
+    "계약면적": "57.0㎡",
+    "계약면적_평": "17.0평",
+    "전용면적": "42.48㎡",
+    "전용면적_평": "13.0평",
+    "방향": "동향",
+    "특이사항": "깨끗한집,전망굿,중역세권,이사협의",
+    "등록일": "2026-02-08"
+  }
+];
+
         let currentComplex = 'all';
 
-        // 단지 필터 버튼 이벤트 리스너
-        document.querySelectorAll('#complex-buttons .filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const complexName = this.getAttribute('data-complex');
-                console.log('단지 선택:', complexName);
-                
-                currentComplex = complexName;
-                
-                // 단지 필터 버튼 업데이트
-                document.querySelectorAll('#complex-buttons .filter-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                applyFilters();
-            });
-        });
+        function initFilters() {
+            const complexes = [...new Set(properties.map(p => p.단지명))].sort();
 
-        // 필터 적용
-        function applyFilters() {
-            console.log('필터 적용:', currentComplex);
-            
-            const sections = document.querySelectorAll('.complex-section');
-            
-            sections.forEach(section => {
-                const sectionComplex = section.getAttribute('data-complex');
-                
-                if (currentComplex === 'all' || sectionComplex === currentComplex) {
-                    section.style.display = 'block';
+            const complexFilterDiv = document.getElementById('complex-filters');
+            complexes.forEach(complex => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.setAttribute('data-complex', complex);
+                btn.onclick = () => filterByComplex(complex);
+                btn.innerHTML = `${complex} (<span class="complex-count" data-complex="${complex}">0</span>)`;
+                complexFilterDiv.appendChild(btn);
+            });
+
+            updateCounts();
+        }
+
+        function updateCounts() {
+            const complexCounts = {};
+            properties.forEach(p => {
+                complexCounts[p.단지명] = (complexCounts[p.단지명] || 0) + 1;
+            });
+
+            document.querySelectorAll('.complex-count').forEach(span => {
+                const complex = span.getAttribute('data-complex');
+                if (complex === 'all') {
+                    span.textContent = properties.length;
                 } else {
-                    section.style.display = 'none';
+                    span.textContent = complexCounts[complex] || 0;
                 }
             });
+        }
+
+        function filterByComplex(complex) {
+            currentComplex = complex;
+
+            // 버튼 활성화 상태 업데이트
+            document.querySelectorAll('[data-complex]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-complex="${complex}"]`).classList.add('active');
+
+            renderProperties();
+        }
+
+        function renderProperties() {
+            const grid = document.getElementById('property-grid');
+            const noResults = document.getElementById('no-results');
             
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            let filtered = properties;
+
+            if (currentComplex !== 'all') {
+                filtered = filtered.filter(p => p.단지명 === currentComplex);
+            }
+
+            if (filtered.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+            } else {
+                grid.style.display = 'grid';
+                noResults.style.display = 'none';
+
+                grid.innerHTML = filtered.map(p => `
+                    <div class="property-card">
+                        <div class="property-title">${p.단지명}</div>
+                        
+                        <div class="property-info">
+                            <span class="property-label">위치:</span>
+                            <span class="property-value">${p.동} ${p.층}/${p.총층}층</span>
+                        </div>
+
+                        <div class="property-price">
+                            ${p.보증금_억}
+                        </div>
+                        
+                        <div class="property-price-per">
+                            평당 ${p.평단가_만}
+                        </div>
+
+                        <div class="property-info">
+                            <span class="property-label">계약면적:</span>
+                            <span class="property-value">${p.계약면적} (${p.계약면적_평})</span>
+                        </div>
+
+                        <div class="property-info">
+                            <span class="property-label">전용면적:</span>
+                            <span class="property-value">${p.전용면적} (${p.전용면적_평})</span>
+                        </div>
+
+                        <div class="property-info">
+                            <span class="property-label">방향:</span>
+                            <span class="property-value">${p.방향}</span>
+                        </div>
+
+                        ${p.특이사항 && p.특이사항 !== 'nan' ? `
+                        <div class="property-special">
+                            <strong>특이사항:</strong><br>${p.특이사항}
+                        </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('total-count').textContent = filtered.length;
         }
 
         // 초기화
-        window.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ 페이지 로드 완료');
-            
-            // 단지 전체보기 버튼 활성화
-            document.querySelector('#complex-buttons .filter-btn[data-complex="all"]').classList.add('active');
-            
-            console.log('✅ 초기화 완료');
-        });
+        initFilters();
+        renderProperties();
     </script>
 </body>
 </html>

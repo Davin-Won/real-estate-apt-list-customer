@@ -3,216 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>부동산 매물 리스트 - 고객전달용</title>
+    <title>원미구 중동/상동 아파트 전세 매물 정보</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; }
         .header {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
         }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .filters {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
+        .header h1 { font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); }
         .filter-section {
-            margin-bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .filter-label {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: #333;
-            display: block;
+        .filter-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
         }
-
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
         .filter-btn {
-            padding: 10px 20px;
+            padding: 10px 18px;
             border: 2px solid #667eea;
             background: white;
             color: #667eea;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.95rem;
             font-weight: 600;
+            font-size: 0.9em;
             transition: all 0.3s ease;
-            white-space: nowrap;
         }
-
         .filter-btn:hover {
-            background: #f0f0f0;
+            background: #f0f4ff;
             transform: translateY(-2px);
         }
-
         .filter-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-color: #764ba2;
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
-
-        .property-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .property-card {
+        .complex-section {
+            margin-bottom: 40px;
             background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
-
-        .property-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        }
-
-        .property-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #764ba2;
-            margin-bottom: 15px;
+        .complex-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
             border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
         }
-
-        .property-info {
-            margin-bottom: 12px;
-            line-height: 1.6;
+        .complex-title { font-size: 1.8em; color: #2d3748; font-weight: bold; }
+        .complex-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
         }
-
-        .property-label {
-            display: inline-block;
-            width: 90px;
-            font-weight: 600;
-            color: #666;
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
         }
-
-        .property-value {
-            color: #333;
+        .property-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+            position: relative;
         }
-
-        .property-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #764ba2;
-            margin: 15px 0;
+        .property-card:hover { transform: translateY(-5px); }
+        .property-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
         }
-
-        .property-price-per {
-            font-size: 1rem;
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .building-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        .floor-info { font-size: 0.95em; color: #4a5568; }
+        .direction-badge {
+            background: #48bb78;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .price-section {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .main-price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .price-detail {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+        .area-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .area-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .area-label { font-size: 0.85em; color: #718096; margin-bottom: 5px; }
+        .area-value { font-size: 0.95em; font-weight: bold; color: #2d3748; }
+        .features {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+        }
+        .features-label {
+            font-size: 0.85em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .features-text { font-size: 0.9em; color: #4a5568; line-height: 1.5; }
+        .contact-section {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        .contact-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .contact-header h2 {
+            font-size: 2em;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        .contact-header .subtitle {
+            font-size: 1.1em;
             color: #667eea;
             font-weight: 600;
         }
-
-        .property-special {
-            background: #f8f9ff;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 15px;
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .contact-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
+            padding: 25px;
+            border-radius: 15px;
             border-left: 4px solid #667eea;
         }
-
-        .no-results {
-            text-align: center;
-            color: white;
-            font-size: 1.5rem;
-            padding: 60px 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-        }
-
-        .stats {
-            text-align: center;
-            color: white;
-            font-size: 1.2rem;
+        .contact-card h3 {
+            font-size: 1.3em;
+            color: #2d3748;
             margin-bottom: 20px;
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
-        .contact-info {
-            text-align: center;
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .contact-info h3 {
-            color: #764ba2;
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
             margin-bottom: 15px;
-            font-size: 1.3rem;
+            gap: 12px;
         }
-
-        .contact-info p {
-            color: #666;
-            font-size: 1.1rem;
-            line-height: 1.8;
+        .contact-item:last-child {
+            margin-bottom: 0;
         }
-
+        .contact-icon {
+            font-size: 1.3em;
+            min-width: 24px;
+            color: #667eea;
+        }
+        .contact-text {
+            flex: 1;
+        }
+        .contact-label {
+            font-size: 0.85em;
+            color: #718096;
+            margin-bottom: 3px;
+        }
+        .contact-value {
+            font-size: 1.05em;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        .contact-value a {
+            color: #2d3748;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-value a:hover {
+            color: #667eea;
+        }
+        .broker-name {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .broker-title {
+            font-size: 1.1em;
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 25px;
+        }
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .property-grid {
+            .cards-grid {
                 grid-template-columns: 1fr;
             }
-
-            .filter-buttons {
-                flex-direction: column;
-            }
-
-            .filter-btn {
-                width: 100%;
+            .contact-content {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -220,333 +269,471 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏢 부동산 매물 리스트</h1>
-            <div class="subtitle">전세 아파트 매물</div>
+            <h1>🏠 원미구 중동/상동 아파트 전세 매물 정보</h1>
         </div>
-
-        <div class="stats" id="stats">
-            총 <strong id="total-count">0</strong>건의 매물
-        </div>
-
-        <div class="filters">
-            <div class="filter-section">
-                <span class="filter-label">📍 단지 선택</span>
-                <div class="filter-buttons" id="complex-filters">
-                    <button class="filter-btn active" data-complex="all" onclick="filterByComplex('all')">
-                        전체보기 (<span class="complex-count" data-complex="all">0</span>)
-                    </button>
-                </div>
+        
+        <div class="filter-section" id="complex-filter-section">
+            <div class="filter-title">🔍 단지별 필터</div>
+            <div class="filter-buttons" id="complex-buttons">
+                <button class="filter-btn active" data-complex="all">전체보기 (10건)</button>
+                <button class="filter-btn" data-complex="한라주공2단지(뜨란채)">한라주공2단지(뜨란채) (3건)</button>
+                <button class="filter-btn" data-complex="금강마을">금강마을 (2건)</button>
+                <button class="filter-btn" data-complex="미리내금호,한양,한신">미리내금호,한양,한신 (2건)</button>
+                <button class="filter-btn" data-complex="은하마을주공1단지">은하마을주공1단지 (2건)</button>
+                <button class="filter-btn" data-complex="반달동아">반달동아 (1건)</button>
             </div>
         </div>
 
-        <div class="property-grid" id="property-grid"></div>
-        <div class="no-results" id="no-results" style="display: none;">
-            해당 조건의 매물이 없습니다.
+        <div id="property-list">
+
+        <div class="complex-section" data-complex="한라주공2단지(뜨란채)">
+            <div class="complex-header">
+                <div class="complex-title">한라주공2단지(뜨란채)</div>
+                <div class="complex-badge">3건</div>
+            </div>
+            <div class="cards-grid">
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">한라주공2단지(뜨란채)</div>
+                            <div class="floor-info">📍 254동 | 12층 / 총 15층</div>
+                        </div>
+                        <div class="direction-badge">남향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,160만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">57㎡<br>(17평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">42.48㎡<br>(13평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">베란다확장.깔끔한내부</div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">한라주공2단지(뜨란채)</div>
+                            <div class="floor-info">📍 256동 | 11층 / 총 15층</div>
+                        </div>
+                        <div class="direction-badge">남향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,160만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">57㎡<br>(17평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">42.48㎡<br>(13평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">깨끗한집,중역세권,이사협의</div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">한라주공2단지(뜨란채)</div>
+                            <div class="floor-info">📍 254동 | 13층 / 총 15층</div>
+                        </div>
+                        <div class="direction-badge">동향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,160만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">57㎡<br>(17평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">42.48㎡<br>(13평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">깨끗한집,전망굿,중역세권,이사협의</div>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        <div class="contact-info">
-            <h3>📞 문의하기</h3>
-            <p>
-                매물에 대한 자세한 정보나 방문 예약을 원하시면<br>
-                담당 공인중개사에게 연락주세요.
-            </p>
+        <div class="complex-section" data-complex="금강마을">
+            <div class="complex-header">
+                <div class="complex-title">금강마을</div>
+                <div class="complex-badge">2건</div>
+            </div>
+            <div class="cards-grid">
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">금강마을</div>
+                            <div class="floor-info">📍 415동 | 13층 / 총 15층</div>
+                        </div>
+                        <div class="direction-badge">남향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억 1,000만원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,218만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">57㎡<br>(17평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">41.8㎡<br>(13평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">샷시포함 올수리 전망굿 정남향 내부깨끗 5월 이사협의</div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">금강마을</div>
+                            <div class="floor-info">📍 404동 | 16층 / 총 25층</div>
+                        </div>
+                        <div class="direction-badge">동향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억 3,000만원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,246만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">61㎡<br>(18평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">42.8㎡<br>(13평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">추천,내부올수리깨끗,이사협의,관리아주잘된집 ,앞뒤트인집</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="complex-section" data-complex="미리내금호,한양,한신">
+            <div class="complex-header">
+                <div class="complex-title">미리내금호,한양,한신</div>
+                <div class="complex-badge">2건</div>
+            </div>
+            <div class="cards-grid">
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">미리내금호,한양,한신</div>
+                            <div class="floor-info">📍 914동 | 11층 / 총 14층</div>
+                        </div>
+                        <div class="direction-badge">서향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억 1,000만원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,218만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">57㎡<br>(17평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">41.1㎡<br>(12평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">17p  역세권,특올수리,입주협의</div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">미리내금호,한양,한신</div>
+                            <div class="floor-info">📍 914동 | 12층 / 총 14층</div>
+                        </div>
+                        <div class="direction-badge">남향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억 3,000만원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,334만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">57㎡<br>(17평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">41.1㎡<br>(12평)</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="complex-section" data-complex="은하마을주공1단지">
+            <div class="complex-header">
+                <div class="complex-title">은하마을주공1단지</div>
+                <div class="complex-badge">2건</div>
+            </div>
+            <div class="cards-grid">
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">은하마을주공1단지</div>
+                            <div class="floor-info">📍 114동 | 14층 / 총 15층</div>
+                        </div>
+                        <div class="direction-badge">남향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억 6,000만원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,243만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">69㎡<br>(21평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">50.0㎡<br>(15평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">수리깨끗,전망좋음</div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">은하마을주공1단지</div>
+                            <div class="floor-info">📍 111동 | 8층 / 총 15층</div>
+                        </div>
+                        <div class="direction-badge">동향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억 5,000만원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,237만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">67㎡<br>(20평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">49.84㎡<br>(15평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">역세권,전망좋음.수리완료</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="complex-section" data-complex="반달동아">
+            <div class="complex-header">
+                <div class="complex-title">반달동아</div>
+                <div class="complex-badge">1건</div>
+            </div>
+            <div class="cards-grid">
+
+                <div class="property-card">
+                    <div class="card-header">
+                        <div class="building-info">
+                            <div class="building-name">반달동아</div>
+                            <div class="floor-info">📍 1814동 | 17층 / 총 19층</div>
+                        </div>
+                        <div class="direction-badge">남향</div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price">2억 5,000만원</div>
+                        <div class="price-detail">
+                            <span>💰 평단가</span>
+                            <span><strong>1,291만원/평</strong></span>
+                        </div>
+                    </div>
+                    <div class="area-info">
+                        <div class="area-item">
+                            <div class="area-label">계약면적</div>
+                            <div class="area-value">64㎡<br>(19평)</div>
+                        </div>
+                        <div class="area-item">
+                            <div class="area-label">전용면적</div>
+                            <div class="area-value">50.0㎡<br>(15평)</div>
+                        </div>
+                    </div>
+                    <div class="features">
+                        <div class="features-label">✨ 특이사항</div>
+                        <div class="features-text">전망아주좋고 내부올수리되어있는 추천매물입니다</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        </div>
+
+        <div class="contact-section">
+            <div class="contact-header">
+                <h2>📞 매물 문의</h2>
+                <p class="subtitle">원종석공인중개사사무소</p>
+            </div>
+            
+            <div class="broker-name">원 종 석</div>
+            <div class="broker-title">대표 | 공인중개사</div>
+            
+            <div class="contact-content">
+                <div class="contact-card">
+                    <h3>📱 연락처</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-text">
+                            <div class="contact-label">휴대폰</div>
+                            <div class="contact-value"><a href="tel:010-9757-5124">010-9757-5124</a></div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">☎️</div>
+                        <div class="contact-text">
+                            <div class="contact-label">전화</div>
+                            <div class="contact-value"><a href="tel:032-710-7665">032-710-7665</a></div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📠</div>
+                        <div class="contact-text">
+                            <div class="contact-label">팩스</div>
+                            <div class="contact-value">0504-468-5124</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-card">
+                    <h3>📍 오시는 길</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-text">
+                            <div class="contact-label">주소</div>
+                            <div class="contact-value">
+                                경기도 부천시 원미구<br>
+                                중동로 254번길 90<br>
+                                6층 워크라움 6168호
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-text">
+                            <div class="contact-label">이메일</div>
+                            <div class="contact-value"><a href="/cdn-cgi/l/email-protection#442e3733212b2a042329252d286a272b29"><span class="__cf_email__" data-cfemail="cfa5bcb8aaa0a18fa8a2aea6a3e1aca0a2">[email&#160;protected]</span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const properties = [
-  {
-    "등록번호": "2608070626",
-    "단지명": "금강마을",
-    "동": "415동",
-    "층": "13층",
-    "총층": "15층",
-    "보증금": 210000000,
-    "보증금_억": "2.10억",
-    "평단가": 12179000,
-    "평단가_만": "1218만원",
-    "계약면적": "57.0㎡",
-    "계약면적_평": "17.0평",
-    "전용면적": "41.8㎡",
-    "전용면적_평": "13.0평",
-    "방향": "남향",
-    "특이사항": "샷시포함 올수리 전망굿 정남향 내부깨끗 5월 이사협의",
-    "등록일": "2026-02-10"
-  },
-  {
-    "등록번호": "2607436941",
-    "단지명": "금강마을",
-    "동": "404동",
-    "층": "16층",
-    "총층": "25층",
-    "보증금": 230000000,
-    "보증금_억": "2.30억",
-    "평단가": 12464000,
-    "평단가_만": "1246만원",
-    "계약면적": "61.0㎡",
-    "계약면적_평": "18.0평",
-    "전용면적": "42.8㎡",
-    "전용면적_평": "13.0평",
-    "방향": "동향",
-    "특이사항": "추천,내부올수리깨끗,이사협의,관리아주잘된집 ,앞뒤트인집",
-    "등록일": "2026-02-06"
-  },
-  {
-    "등록번호": "2606481765",
-    "단지명": "미리내금호,한양,한신",
-    "동": "914동",
-    "층": "11층",
-    "총층": "14층",
-    "보증금": 210000000,
-    "보증금_억": "2.10억",
-    "평단가": 12179000,
-    "평단가_만": "1218만원",
-    "계약면적": "57.0㎡",
-    "계약면적_평": "17.0평",
-    "전용면적": "41.1㎡",
-    "전용면적_평": "12.0평",
-    "방향": "서향",
-    "특이사항": "17p  역세권,특올수리,입주협의",
-    "등록일": "2026-02-02"
-  },
-  {
-    "등록번호": "2607373959",
-    "단지명": "미리내금호,한양,한신",
-    "동": "914동",
-    "층": "12층",
-    "총층": "14층",
-    "보증금": 230000000,
-    "보증금_억": "2.30억",
-    "평단가": 13339000,
-    "평단가_만": "1334만원",
-    "계약면적": "57.0㎡",
-    "계약면적_평": "17.0평",
-    "전용면적": "41.1㎡",
-    "전용면적_평": "12.0평",
-    "방향": "남향",
-    "특이사항": "nan",
-    "등록일": "2026-02-06"
-  },
-  {
-    "등록번호": "2608710670",
-    "단지명": "반달동아",
-    "동": "1814동",
-    "층": "17층",
-    "총층": "19층",
-    "보증금": 250000000,
-    "보증금_억": "2.50억",
-    "평단가": 12913000,
-    "평단가_만": "1291만원",
-    "계약면적": "64.0㎡",
-    "계약면적_평": "19.0평",
-    "전용면적": "50.0㎡",
-    "전용면적_평": "15.0평",
-    "방향": "남향",
-    "특이사항": "전망아주좋고 내부올수리되어있는 추천매물입니다",
-    "등록일": "2026-02-13"
-  },
-  {
-    "등록번호": "2608667799",
-    "단지명": "은하마을주공1단지",
-    "동": "114동",
-    "층": "14층",
-    "총층": "15층",
-    "보증금": 260000000,
-    "보증금_억": "2.60억",
-    "평단가": 12427000,
-    "평단가_만": "1243만원",
-    "계약면적": "69.0㎡",
-    "계약면적_평": "21.0평",
-    "전용면적": "50.0㎡",
-    "전용면적_평": "15.0평",
-    "방향": "남향",
-    "특이사항": "수리깨끗,전망좋음",
-    "등록일": "2026-02-13"
-  },
-  {
-    "등록번호": "2608597099",
-    "단지명": "은하마을주공1단지",
-    "동": "111동",
-    "층": "8층",
-    "총층": "15층",
-    "보증금": 250000000,
-    "보증금_억": "2.50억",
-    "평단가": 12366000,
-    "평단가_만": "1237만원",
-    "계약면적": "67.0㎡",
-    "계약면적_평": "20.0평",
-    "전용면적": "49.84㎡",
-    "전용면적_평": "15.0평",
-    "방향": "동향",
-    "특이사항": "역세권,전망좋음.수리완료",
-    "등록일": "2026-02-13"
-  },
-  {
-    "등록번호": "2605944549",
-    "단지명": "한라주공2단지(뜨란채)",
-    "동": "254동",
-    "층": "12층",
-    "총층": "15층",
-    "보증금": 200000000,
-    "보증금_억": "2.00억",
-    "평단가": 11599000,
-    "평단가_만": "1160만원",
-    "계약면적": "57.0㎡",
-    "계약면적_평": "17.0평",
-    "전용면적": "42.48㎡",
-    "전용면적_평": "13.0평",
-    "방향": "남향",
-    "특이사항": "베란다확장.깔끔한내부",
-    "등록일": "2026-01-30"
-  },
-  {
-    "등록번호": "2608403296",
-    "단지명": "한라주공2단지(뜨란채)",
-    "동": "256동",
-    "층": "11층",
-    "총층": "15층",
-    "보증금": 200000000,
-    "보증금_억": "2.00억",
-    "평단가": 11599000,
-    "평단가_만": "1160만원",
-    "계약면적": "57.0㎡",
-    "계약면적_평": "17.0평",
-    "전용면적": "42.48㎡",
-    "전용면적_평": "13.0평",
-    "방향": "남향",
-    "특이사항": "깨끗한집,중역세권,이사협의",
-    "등록일": "2026-02-11"
-  },
-  {
-    "등록번호": "2607871857",
-    "단지명": "한라주공2단지(뜨란채)",
-    "동": "254동",
-    "층": "13층",
-    "총층": "15층",
-    "보증금": 200000000,
-    "보증금_억": "2.00억",
-    "평단가": 11599000,
-    "평단가_만": "1160만원",
-    "계약면적": "57.0㎡",
-    "계약면적_평": "17.0평",
-    "전용면적": "42.48㎡",
-    "전용면적_평": "13.0평",
-    "방향": "동향",
-    "특이사항": "깨끗한집,전망굿,중역세권,이사협의",
-    "등록일": "2026-02-08"
-  }
-];
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        let selectedComplex = 'all';
 
-        let currentComplex = 'all';
-
-        function initFilters() {
-            const complexes = [...new Set(properties.map(p => p.단지명))].sort();
-
-            const complexFilterDiv = document.getElementById('complex-filters');
-            complexes.forEach(complex => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.setAttribute('data-complex', complex);
-                btn.onclick = () => filterByComplex(complex);
-                btn.innerHTML = `${complex} (<span class="complex-count" data-complex="${complex}">0</span>)`;
-                complexFilterDiv.appendChild(btn);
-            });
-
-            updateCounts();
-        }
-
-        function updateCounts() {
-            const complexCounts = {};
-            properties.forEach(p => {
-                complexCounts[p.단지명] = (complexCounts[p.단지명] || 0) + 1;
-            });
-
-            document.querySelectorAll('.complex-count').forEach(span => {
-                const complex = span.getAttribute('data-complex');
-                if (complex === 'all') {
-                    span.textContent = properties.length;
+        // 필터링 함수
+        function filterProperties() {
+            const complexSections = document.querySelectorAll('.complex-section');
+            
+            complexSections.forEach(section => {
+                const complexName = section.getAttribute('data-complex');
+                
+                if (selectedComplex === 'all' || complexName === selectedComplex) {
+                    section.style.display = 'block';
                 } else {
-                    span.textContent = complexCounts[complex] || 0;
+                    section.style.display = 'none';
                 }
             });
         }
 
-        function filterByComplex(complex) {
-            currentComplex = complex;
-
-            // 버튼 활성화 상태 업데이트
-            document.querySelectorAll('[data-complex]').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`[data-complex="${complex}"]`).classList.add('active');
-
-            renderProperties();
-        }
-
-        function renderProperties() {
-            const grid = document.getElementById('property-grid');
-            const noResults = document.getElementById('no-results');
-            
-            let filtered = properties;
-
-            if (currentComplex !== 'all') {
-                filtered = filtered.filter(p => p.단지명 === currentComplex);
+        // 이벤트 리스너
+        document.getElementById('complex-buttons').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('#complex-buttons .filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                
+                selectedComplex = e.target.getAttribute('data-complex');
+                filterProperties();
             }
-
-            if (filtered.length === 0) {
-                grid.style.display = 'none';
-                noResults.style.display = 'block';
-            } else {
-                grid.style.display = 'grid';
-                noResults.style.display = 'none';
-
-                grid.innerHTML = filtered.map(p => `
-                    <div class="property-card">
-                        <div class="property-title">${p.단지명}</div>
-                        
-                        <div class="property-info">
-                            <span class="property-label">위치:</span>
-                            <span class="property-value">${p.동} ${p.층}/${p.총층}층</span>
-                        </div>
-
-                        <div class="property-price">
-                            ${p.보증금_억}
-                        </div>
-                        
-                        <div class="property-price-per">
-                            평당 ${p.평단가_만}
-                        </div>
-
-                        <div class="property-info">
-                            <span class="property-label">계약면적:</span>
-                            <span class="property-value">${p.계약면적} (${p.계약면적_평})</span>
-                        </div>
-
-                        <div class="property-info">
-                            <span class="property-label">전용면적:</span>
-                            <span class="property-value">${p.전용면적} (${p.전용면적_평})</span>
-                        </div>
-
-                        <div class="property-info">
-                            <span class="property-label">방향:</span>
-                            <span class="property-value">${p.방향}</span>
-                        </div>
-
-                        ${p.특이사항 && p.특이사항 !== 'nan' ? `
-                        <div class="property-special">
-                            <strong>특이사항:</strong><br>${p.특이사항}
-                        </div>
-                        ` : ''}
-                    </div>
-                `).join('');
-            }
-
-            document.getElementById('total-count').textContent = filtered.length;
-        }
-
-        // 초기화
-        initFilters();
-        renderProperties();
+        });
     </script>
 </body>
 </html>

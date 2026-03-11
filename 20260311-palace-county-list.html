@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>팰리스카운티 매물 리스트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .filter-title {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            padding: 12px 24px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .property-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .property-header {
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .property-title {
+            color: #667eea;
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .property-location {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .property-info {
+            margin-bottom: 12px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .info-label {
+            color: #888;
+            font-weight: 500;
+        }
+        
+        .info-value {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .price {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+        
+        .special-note {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 5px;
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .no-results-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .no-results-text {
+            color: #666;
+            font-size: 1.3em;
+        }
+        
+        @media (max-width: 768px) {
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+            }
+            
+            .filter-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏢 팰리스카운티 매물 리스트</h1>
+            <p class="subtitle">총 11개의 매물</p>
+        </header>
+        
+        <div class="filter-section">
+            <div class="filter-title">📍 단지별 필터</div>
+            <div class="filter-buttons" id="danjiFilter">
+                <button class="filter-btn active" data-danji="all">전체보기 (11건)</button>
+                <button class="filter-btn" data-danji="팰리스카운티">팰리스카운티 (11건)</button>
+            </div>
+        </div>
+        
+        <div class="properties-grid" id="propertiesGrid"></div>
+        
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-text">선택한 조건에 맞는 매물이 없습니다.</div>
+        </div>
+    </div>
+    
+    <script>
+        const properties = [
+        {
+                "단지명": "팰리스카운티",
+                "동": "120동",
+                "층": "1층",
+                "총층": "23층",
+                "거래가격": "570,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 올확장, 최근 화이트 특인테리어",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "116동",
+                "층": "14층",
+                "총층": "25층",
+                "거래가격": "615,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 주방포함 올확장",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "116동",
+                "층": "3층",
+                "총층": "25층",
+                "거래가격": "585,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 기본(깨끗함)",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "104동",
+                "층": "20층",
+                "총층": "25층",
+                "거래가격": "620,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 주방포함 올확장, 올수리",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "105동",
+                "층": "15층",
+                "총층": "29층",
+                "거래가격": "600,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 기본(깨끗함)",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "111동",
+                "층": "3층",
+                "총층": "25층",
+                "거래가격": "600,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "26년 7월 입주(협의가능), 올확장",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "117동",
+                "층": "15층",
+                "총층": "22층",
+                "거래가격": "650,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 기본, 욕실수리",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "103동",
+                "층": "15층",
+                "총층": "26층",
+                "거래가격": "630,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "남향",
+                "특이사항": "26년 5월 입주(협의가능), 방2확장, 수리기간허용, 금액조정가",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "120동",
+                "층": "19층",
+                "총층": "23층",
+                "거래가격": "650,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 올확장",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "104동",
+                "층": "19층",
+                "총층": "25층",
+                "거래가격": "630,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 기본",
+                "평단가": "-"
+        },
+        {
+                "단지명": "팰리스카운티",
+                "동": "120동",
+                "층": "15층",
+                "총층": "23층",
+                "거래가격": "650,000,000",
+                "전용면적": "18",
+                "공급면적": "24",
+                "방향": "동향",
+                "특이사항": "즉시입주, 올확장",
+                "평단가": "-"
+        }
+];
+        
+        let currentDanji = 'all';
+        
+        function formatPrice(price) {
+            if (!price) return '-';
+            const priceStr = price.toString().replace(/,/g, '');
+            const priceNum = parseFloat(priceStr);
+            if (isNaN(priceNum)) return price;
+            
+            // 원본 데이터에 그대로 "원"만 붙이기
+            return priceNum.toLocaleString() + '원';
+        }
+        
+        function formatFloor(floor) {
+            if (!floor) return '';
+            // "1층초" -> "1층", "23층초" -> "23층" 처리
+            return floor.toString().replace('층초', '층').replace('초', '');
+        }
+        
+        function renderProperties() {
+            const grid = document.getElementById('propertiesGrid');
+            const noResults = document.getElementById('noResults');
+            
+            let filtered = properties;
+            
+            if (currentDanji !== 'all') {
+                filtered = properties.filter(p => p.단지명 === currentDanji);
+            }
+            
+            if (filtered.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+            
+            grid.innerHTML = filtered.map(prop => `
+                <div class="property-card">
+                    <div class="property-header">
+                        <div class="property-title">${prop.단지명}</div>
+                        <div class="property-location">${prop.동} ${formatFloor(prop.층)} (총 ${formatFloor(prop.총층)})</div>
+                    </div>
+                    
+                    <div class="price">${formatPrice(prop.거래가격)}</div>
+                    
+                    <div class="property-info">
+                        <div class="info-row">
+                            <span class="info-label">평단가</span>
+                            <span class="info-value">${prop.평단가}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">전용면적</span>
+                            <span class="info-value">${prop.전용면적}평</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">공급면적</span>
+                            <span class="info-value">${prop.공급면적}평</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">방향</span>
+                            <span class="info-value">${prop.방향}</span>
+                        </div>
+                    </div>
+                    
+                    ${prop.특이사항 ? `<div class="special-note">📌 ${prop.특이사항}</div>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // 단지 필터 이벤트
+        document.getElementById('danjiFilter').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('#danjiFilter .filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                currentDanji = e.target.dataset.danji;
+                renderProperties();
+            }
+        });
+        
+        // 초기 렌더링
+        renderProperties();
+    </script>
+</body>
+</html>
